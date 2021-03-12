@@ -1,27 +1,27 @@
-<h1 align="center">Async Drop</h1>
+<h1 align="center">Async Destruction</h1>
 <div align="center">
  <strong> A smart pointer which executes drop asynchronously in tokio.  </strong>
 </div>
 <br />
 <div align="center">
   <!-- Crates version -->
-  <a href="https://crates.io/crates/async_drop">
-<img src="https://img.shields.io/crates/v/async_drop.svg?style=flat-square"
+  <a href="https://crates.io/crates/async_destruction">
+<img src="https://img.shields.io/crates/v/async_destruction.svg?style=flat-square"
 alt="Crates.io version" />
   </a>
   <!-- Downloads -->
-  <a href="https://crates.io/crates/async_drop">
-<img src="https://img.shields.io/crates/d/async_drop.svg?style=flat-square"
+  <a href="https://crates.io/crates/async_destruction">
+<img src="https://img.shields.io/crates/d/async_destruction.svg?style=flat-square"
   alt="Download" />
   </a>
   <!-- docs.rs docs -->
-  <a href="https://docs.rs/async_drop">
+  <a href="https://docs.rs/async_destruction">
 <img src="https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square"
   alt="docs.rs docs" />
   </a>
   <!-- ci -->
-  <a href="https://docs.rs/async_drop">
-<img src="https://github.com/liangyongrui/async_drop/workflows/Rust/badge.svg"
+  <a href="https://docs.rs/async_destruction">
+<img src="https://github.com/liangyongrui/async_destruction/workflows/Rust/badge.svg"
   alt="ci" />
   </a>
 </div>
@@ -33,7 +33,7 @@ alt="Crates.io version" />
 dependencies
 
 ```toml
-async_drop = "0.1"
+async_destruction = "0.1"
 tokio = { version = '1', features = ["full"] }
 # Only used in the current example
 chrono = "0.4"
@@ -42,7 +42,7 @@ chrono = "0.4"
 demo
 
 ```rust
-use async_drop::AsyncDrop;
+use async_destruction::AsyncDestruction;
 use chrono::Utc;
 use std::{thread::sleep, time::Duration};
 
@@ -67,7 +67,7 @@ fn it_works() {
 
 #[tokio::test]
 async fn async_works() {
-    let a = AsyncDrop::new(vec![S; 10]);
+    let a = AsyncDestruction::new(vec![S; 10]);
     let t1 = Utc::now().timestamp_millis();
     drop(a);
     let t2 = Utc::now().timestamp_millis();

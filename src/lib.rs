@@ -1,8 +1,8 @@
-pub struct AsyncDrop<T: 'static + Send> {
+pub struct AsyncDestruction<T: 'static + Send> {
     ptr: *mut T,
 }
 
-impl<T: 'static + Send> AsyncDrop<T> {
+impl<T: 'static + Send> AsyncDestruction<T> {
     #[inline(always)]
     pub fn new(x: T) -> Self {
         Self {
@@ -11,19 +11,19 @@ impl<T: 'static + Send> AsyncDrop<T> {
     }
 }
 
-impl<T: 'static + Send> AsMut<T> for AsyncDrop<T> {
+impl<T: 'static + Send> AsMut<T> for AsyncDestruction<T> {
     #[inline(always)]
     fn as_mut(&mut self) -> &mut T {
         unsafe { &mut *self.ptr }
     }
 }
-impl<T: 'static + Send> AsRef<T> for AsyncDrop<T> {
+impl<T: 'static + Send> AsRef<T> for AsyncDestruction<T> {
     #[inline(always)]
     fn as_ref(&self) -> &T {
         unsafe { &*self.ptr }
     }
 }
-impl<T: 'static + Send> Drop for AsyncDrop<T> {
+impl<T: 'static + Send> Drop for AsyncDestruction<T> {
     fn drop(&mut self) {
         let inner = unsafe { Box::from_raw(self.ptr) };
         tokio::spawn(async move { drop(inner) });
@@ -32,7 +32,7 @@ impl<T: 'static + Send> Drop for AsyncDrop<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::AsyncDrop;
+    use super::AsyncDestruction;
     use chrono::Utc;
     use std::{thread::sleep, time::Duration};
 
@@ -56,7 +56,7 @@ mod tests {
 
     #[tokio::test]
     async fn async_works() {
-        let a = AsyncDrop::new(vec![S; 10]);
+        let a = AsyncDestruction::new(vec![S; 10]);
         let t1 = Utc::now().timestamp_millis();
         drop(a);
         let t2 = Utc::now().timestamp_millis();
