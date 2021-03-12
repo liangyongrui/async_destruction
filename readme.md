@@ -54,10 +54,16 @@ impl Drop for S {
         println!("drop!");
     }
 }
+impl S {
+    pub fn do_sth(&self) {
+        println!("do_sth");
+    }
+}
 
 #[test]
 fn it_works() {
     let a = vec![S; 10];
+    a[0].do_sth();
     let t1 = Utc::now().timestamp_millis();
     drop(a);
     let t2 = Utc::now().timestamp_millis();
@@ -68,6 +74,8 @@ fn it_works() {
 #[tokio::test]
 async fn async_works() {
     let a = AsyncDestruction::new(vec![S; 10]);
+    // auto deref
+    a[0].do_sth();
     let t1 = Utc::now().timestamp_millis();
     drop(a);
     let t2 = Utc::now().timestamp_millis();
